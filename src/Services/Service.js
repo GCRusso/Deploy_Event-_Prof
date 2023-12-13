@@ -22,11 +22,14 @@ export const presencesEventResource = '/PresencasEvento';
  * Rota para o recurso Presenças Evento
  */
 export const commentaryEventResource = '/ComentariosEvento';
-
 /**
  * Rota para o recurso Próximos Eventos
  */
 export const nextEventResource = '/Evento/ListarProximos';
+/**
+ * Rota para o recurso Próximos Eventos
+ */
+export const previousEventResource = '/Evento/ListarAnteriores';
 /**
  * Rota para o recurso Tipos de Eventos
  */
@@ -39,15 +42,17 @@ export const institutionResource = '/Instituicao';
  * Rota para o recurso Login
  */
 export const loginResource = '/Login';
+/**
+ * Rota para o recurso Detalhes do Evento
+ */
+export const detailsEventResource = '/DetalhesEvento';
 
-const apiPort = '5000';
-// const localApiUri = `http://localhost:${apiPort}/api`;
-const localApiUri = `https://eventwebapi-russo.azurewebsites.net/api`
-const externallApiUri = ``;
+
+const externalApiUrl = `https://eventwebapi-russo.azurewebsites.net/api`;
 // const externalApiUri = null;
 
 const api = axios.create({
-    baseURL: localApiUri
+    baseURL: externalApiUrl
 });
 
 

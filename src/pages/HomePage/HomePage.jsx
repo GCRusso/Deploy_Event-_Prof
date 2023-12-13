@@ -7,15 +7,31 @@ import VisionSection from "../../components/VisionSection/VisionSection";
 import ContactSection from "../../components/ContactSection/ContactSection";
 import Title from "../../components/Title/Title";
 import NextEvent from "../../components/NextEvent/NextEvent";
+import PreviousEvent from "../../components/PreviousEvent/PreviousEvent";
 import Container from "../../components/Container/Container";
 import api from "../../Services/Service";
 import Notification from "../../components/Notification/Notification";
-import { nextEventResource } from "../../Services/Service";
+import { nextEventResource, previousEventResource } from "../../Services/Service";
 
 
 const HomePage = () => {
   const [nextEvents, setNextEvents] = useState([]);
+  const [previousEvent, setPreviousEvent] = useState([]);
   const [notifyUser, setNotifyUser] = useState(); //Componente Notification
+
+  useEffect(() => {
+    async function getPreviousEvents() {
+      try {
+        //*** Listar Anteriores */
+        const anteriores = await api.get(previousEventResource);
+        const ant = await anteriores.data;
+        setPreviousEvent(ant);
+      } catch (error) {
+        alert("ERRO!!!")
+      }
+    }
+    getPreviousEvents();
+  }, []);
 
   // roda somente na inicialização do componente
   useEffect(() => {
@@ -38,12 +54,11 @@ const HomePage = () => {
         // });
       }
     }
-
     getNextEvents(); //chama a função
   }, []);
 
   return (
-    
+
     <MainContent>
       {<Notification {...notifyUser} setNotifyUser={setNotifyUser} />}
       <Banner />
@@ -54,9 +69,26 @@ const HomePage = () => {
           {/* <Title titleText={"Próximos Eventos"} /> */}
 
           <div className="events-box">
+            <Title titleText={"Próximos Eventos"} />
             {nextEvents.map((e) => {
               return (
                 <NextEvent
+                  key={e.idEvento}
+                  title={e.nomeEvento}
+                  description={e.descricao}
+                  eventDate={e.dataEvento}
+                  idEvent={e.idEvento}
+                />
+              );
+            })}
+          </div>
+
+          {/* EVENTOS ANTERIORES */}
+          <div className="events-box">
+            <Title titleText={"Eventos Anteriores"} />
+            {previousEvent.map((e) => {
+              return (
+                <PreviousEvent
                   key={e.idEvento}
                   title={e.nomeEvento}
                   description={e.descricao}
